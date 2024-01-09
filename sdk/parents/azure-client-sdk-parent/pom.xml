@@ -470,20 +470,6 @@
         </executions>
       </plugin>
 
-      <!-- Checks public surface area for breaking changes. -->
-      <plugin>
-        <groupId>org.revapi</groupId>
-        <artifactId>revapi-maven-plugin</artifactId>
-        <version>0.14.6</version> <!-- {x-version-update;org.revapi:revapi-maven-plugin;external_dependency} -->
-        <executions>
-          <execution>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
@@ -655,59 +641,6 @@
             </dependency>
           </dependencies>
         </plugin>
-
-        <!-- Checks public surface area for breaking changes. -->
-        <plugin>
-          <groupId>org.revapi</groupId>
-          <artifactId>revapi-maven-plugin</artifactId>
-          <version>0.14.6</version> <!-- {x-version-update;org.revapi:revapi-maven-plugin;external_dependency} -->
-          <configuration>
-            <skip>${revapi.skip}</skip>
-            <convertAnalysisConfigurationFiles>true</convertAnalysisConfigurationFiles>
-            <analysisConfigurationFiles>
-              <configurationFile>
-                <resource>revapi/revapi.json</resource>
-              </configurationFile>
-            </analysisConfigurationFiles>
-            <versionFormat>^\d+\.\d+\.\d+$</versionFormat>
-            <checkDependencies>true</checkDependencies>
-            <failBuildOnProblemsFound>${revapi.failBuildOnProblemsFound}</failBuildOnProblemsFound>
-            <!-- The following configures reporting to file in addition to CLI reporting. -->
-            <analysisConfiguration>
-              <revapi.reporter.json id="file-report">
-                <minSeverity>NON_BREAKING</minSeverity>
-                <minCriticality>error</minCriticality>
-                <indent>true</indent>
-                <output>${project.build.directory}/revapi.json</output>
-                <keepEmptyFile>false</keepEmptyFile>
-              </revapi.reporter.json>
-            </analysisConfiguration>
-            <pipelineConfiguration>
-              <filters>
-                <include>
-                  <item>azure-sdk-tree-provider</item>
-                </include>
-              </filters>
-            </pipelineConfiguration>
-          </configuration>
-          <dependencies>
-            <dependency>
-              <groupId>com.azure</groupId>
-              <artifactId>sdk-build-tools</artifactId>
-              <version>1.0.0</version> <!-- {x-version-update;com.azure:sdk-build-tools;external_dependency} -->
-            </dependency>
-            <dependency>
-              <groupId>org.revapi</groupId>
-              <artifactId>revapi-java</artifactId>
-              <version>0.26.1</version> <!-- {x-version-update;org.revapi:revapi-java;external_dependency} -->
-            </dependency>
-            <dependency>
-              <groupId>org.revapi</groupId>
-              <artifactId>revapi-reporter-json</artifactId>
-              <version>0.4.5</version> <!-- {x-version-update;org.revapi:revapi-reporter-json;external_dependency} -->
-            </dependency>
-          </dependencies>
-        </plugin>
       </plugins>
     </pluginManagement>
   </build>
@@ -740,21 +673,6 @@
               <report>ci-management</report>
               <report>dependencies</report>
               <report>issue-management</report>
-            </reports>
-          </reportSet>
-        </reportSets>
-      </plugin>
-      <plugin>
-        <groupId>org.revapi</groupId>
-        <artifactId>revapi-maven-plugin</artifactId>
-        <version>0.14.6</version> <!-- {x-version-update;org.revapi:revapi-maven-plugin;external_dependency} -->
-        <configuration>
-          <checkDependencies>false</checkDependencies>
-        </configuration>
-        <reportSets>
-          <reportSet>
-            <reports>
-              <report>report</report>
             </reports>
           </reportSet>
         </reportSets>
