@@ -1,0 +1,10 @@
+com/azure/tools/checkstyle/checks/GoodLoggerCheckTest.class
+com/azure/tools/revapi/transforms/AzureSdkTreeFilterProviderTest.class
+com/azure/tools/checkstyle/checks/ImmutableClassCheckTest.class
+com/azure/tools/checkstyle/checks/JavadocThrowsChecksTest.class
+com/azure/tools/checkstyle/checks/ThrowFromClientLoggerCheckTest.class
+com/azure/tools/checkstyle/checks/NoImplInPublicApiTest.class
+com/azure/tools/checkstyle/checks/DenyListedWordsCheckTest.class
+com/azure/tools/checkstyle/checks/UseCaughtExceptionTest.class
+com/azure/tools/checkstyle/checks/StepVerifierCheckTest.class
+com/azure/tools/checkstyle/checks/TestUtils.class

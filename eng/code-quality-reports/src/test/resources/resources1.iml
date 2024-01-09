@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/com/azure/tools/checkstyle/checks/DenyListedWordsChecks" isTestSource="false" packagePrefix="com.azure.tools.checkstyle.checks" />
+      <sourceFolder url="file://$MODULE_DIR$/com/azure/tools/checkstyle/checks/GoodLoggerCheck" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/com/azure/tools/checkstyle/checks/JavadocThrowsChecks" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/com/azure/tools/checkstyle/checks/NoImplInPublicApiCheck" isTestSource="false" packagePrefix="com.azure" />
+      <sourceFolder url="file://$MODULE_DIR$/com/azure/tools/checkstyle/checks/ThrowFromClientLoggerCheck" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/com/azure/tools/checkstyle/checks/UseCaughtExceptionCheck" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="test195" />
+    <orderEntry type="module" module-name="samples92" />
+    <orderEntry type="module" module-name="test195" />
+    <orderEntry type="module" module-name="samples92" />
+  </component>
+</module>

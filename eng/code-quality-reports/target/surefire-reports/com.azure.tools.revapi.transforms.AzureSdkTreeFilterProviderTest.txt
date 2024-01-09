@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.azure.tools.revapi.transforms.AzureSdkTreeFilterProviderTest
+-------------------------------------------------------------------------------
+Tests run: 48, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.047 s - in com.azure.tools.revapi.transforms.AzureSdkTreeFilterProviderTest

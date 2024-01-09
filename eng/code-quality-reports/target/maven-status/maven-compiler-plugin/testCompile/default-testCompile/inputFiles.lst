@@ -1,0 +1,10 @@
+/home/michael/azure-sdk-for-java/eng/code-quality-reports/src/test/java/com/azure/tools/checkstyle/checks/ImmutableClassCheckTest.java
+/home/michael/azure-sdk-for-java/eng/code-quality-reports/src/test/java/com/azure/tools/revapi/transforms/AzureSdkTreeFilterProviderTest.java
+/home/michael/azure-sdk-for-java/eng/code-quality-reports/src/test/java/com/azure/tools/checkstyle/checks/DenyListedWordsCheckTest.java
+/home/michael/azure-sdk-for-java/eng/code-quality-reports/src/test/java/com/azure/tools/checkstyle/checks/JavadocThrowsChecksTest.java
+/home/michael/azure-sdk-for-java/eng/code-quality-reports/src/test/java/com/azure/tools/checkstyle/checks/ThrowFromClientLoggerCheckTest.java
+/home/michael/azure-sdk-for-java/eng/code-quality-reports/src/test/java/com/azure/tools/checkstyle/checks/StepVerifierCheckTest.java
+/home/michael/azure-sdk-for-java/eng/code-quality-reports/src/test/java/com/azure/tools/checkstyle/checks/TestUtils.java
+/home/michael/azure-sdk-for-java/eng/code-quality-reports/src/test/java/com/azure/tools/checkstyle/checks/UseCaughtExceptionTest.java
+/home/michael/azure-sdk-for-java/eng/code-quality-reports/src/test/java/com/azure/tools/checkstyle/checks/NoImplInPublicApiTest.java
+/home/michael/azure-sdk-for-java/eng/code-quality-reports/src/test/java/com/azure/tools/checkstyle/checks/GoodLoggerCheckTest.java
