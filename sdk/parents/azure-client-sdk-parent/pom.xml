@@ -285,21 +285,6 @@
         <version>3.10.1</version> <!-- {x-version-update;org.apache.maven.plugins:maven-compiler-plugin;external_dependency} -->
       </plugin>
 
-      <!-- This plugin scans reports spotbugs in the code -->
-      <plugin>
-        <groupId>com.github.spotbugs</groupId>
-        <artifactId>spotbugs-maven-plugin</artifactId>
-        <version>4.8.2.0</version> <!-- {x-version-update;com.github.spotbugs:spotbugs-maven-plugin;external_dependency} -->
-        <executions>
-          <execution>
-            <phase>verify</phase>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
       <!-- Configure the jar plugin -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -597,55 +582,6 @@
           </configuration>
         </plugin>
 
-        <!-- This plugin scans reports spotbugs in the code -->
-        <plugin>
-          <groupId>com.github.spotbugs</groupId>
-          <artifactId>spotbugs-maven-plugin</artifactId>
-          <version>4.8.2.0</version> <!-- {x-version-update;com.github.spotbugs:spotbugs-maven-plugin;external_dependency} -->
-          <dependencies>
-            <dependency>
-              <groupId>com.azure</groupId>
-              <artifactId>sdk-build-tools</artifactId>
-              <version>1.0.0</version> <!-- {x-version-update;com.azure:sdk-build-tools;external_dependency} -->
-            </dependency>
-            <dependency>
-              <groupId>com.github.spotbugs</groupId>
-              <artifactId>spotbugs</artifactId>
-              <version>4.8.3</version> <!-- {x-version-update;com.github.spotbugs:spotbugs;external_dependency} -->
-            </dependency>
-            <!-- Needed as the version of Spotbugs being used isn't compatible is Java 18+ without this. -->
-            <dependency>
-              <groupId>org.ow2.asm</groupId>
-              <artifactId>asm</artifactId>
-              <version>9.6</version> <!-- {x-version-update;org.ow2.asm:asm;external_dependency} -->
-            </dependency>
-          </dependencies>
-          <configuration>
-            <skip>${spotbugs.skip}</skip>
-            <effort>max</effort>
-            <threshold>Low</threshold>
-            <xmlOutput>true</xmlOutput>
-            <spotbugsXmlOutputDirectory>${project.build.directory}/spotbugs</spotbugsXmlOutputDirectory>
-            <excludeFilterFile>${spotbugs.excludeFilterFile}</excludeFilterFile>
-            <fork>true</fork>
-            <failOnError>${spotbugs.failOnError}</failOnError>
-            <!-- Set this to true when src/samples and src/test are spotbugs clean in all Track 2 SDKs -->
-            <includeTests>${spotbugs.includeTests}</includeTests>
-            <jvmArgs>
-              ${java.security.manager.configuration}
-            </jvmArgs>
-
-            <!-- Enable this plugin when issues documented are fixed -->
-            <!--          <plugins>-->
-            <!--            <plugin>-->
-            <!--              <groupId>com.h3xstream.findsecbugs</groupId>-->
-            <!--              <artifactId>findsecbugs-plugin</artifactId>-->
-            <!--              <version>1.9.0</version> &lt;!&ndash; {x-version-update;com.h3xstream.findsecbugs:findsecbugs-plugin;external_dependency} &ndash;&gt;-->
-            <!--            </plugin>-->
-            <!--          </plugins>-->
-          </configuration>
-        </plugin>
-
         <!-- This plugin runs tests -->
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -789,11 +725,6 @@
 
   <reporting>
     <plugins>
-      <plugin>
-        <groupId>com.github.spotbugs</groupId>
-        <artifactId>spotbugs-maven-plugin</artifactId>
-        <version>4.8.2.0</version> <!-- {x-version-update;com.github.spotbugs:spotbugs-maven-plugin;external_dependency} -->
-      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-project-info-reports-plugin</artifactId>
