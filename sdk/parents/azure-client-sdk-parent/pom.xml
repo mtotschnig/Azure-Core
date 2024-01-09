@@ -355,21 +355,6 @@
         </executions>
       </plugin>
 
-      <!-- Configure the javadoc plugin -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.6.0</version> <!-- {x-version-update;org.apache.maven.plugins:maven-javadoc-plugin;external_dependency} -->
-        <executions>
-          <execution>
-            <id>attach-javadocs</id>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
       <!-- Configure the source plugin -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -709,116 +694,6 @@
           </configuration>
         </plugin>
 
-        <!-- This plugin generates Javadocs -->
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.6.0</version> <!-- {x-version-update;org.apache.maven.plugins:maven-javadoc-plugin;external_dependency} -->
-          <configuration>
-            <source>1.8</source>
-            <doctitle>Azure SDK for Java Reference Documentation</doctitle>
-            <windowtitle>Azure SDK for Java Reference Documentation</windowtitle>
-            <bottom>Visit the &lt;a href="https://docs.microsoft.com/java/azure/"&gt;Azure for Java Developers&lt;/a&gt; site
-              for more Java documentation, including quick starts, tutorials, and code samples.
-            </bottom>
-            <linksource>false</linksource>
-            <excludePackageNames combine.children="append">
-              *.impl*:
-              *.implementation:
-              *.implementation*:
-              *.samples:
-              com.azure.tools.checkstyle*:
-              com.azure.core.test*:
-              com.azure.endtoend*:
-              com.azure.perf*:
-              com.azure.storage.internal.avro*:
-              com.azure.cosmos.encryption.implementation.mdesrc*:
-              ${javadoc.excludePackageNames}
-            </excludePackageNames>
-            <!-- CosmosSkip - This is temporary, BridgeInternal gets converted to implementation -->
-            <sourceFileExcludes>
-              <sourceFileExclude>com/azure/cosmos/*BridgeInternal.java</sourceFileExclude>
-              <sourceFileExclude>com/azure/cosmos/models/*BridgeInternal.java</sourceFileExclude>
-              <sourceFileExclude>com/azure/cosmos/util/*BridgeInternal.java</sourceFileExclude>
-              <sourceFileExclude>com/azure/cosmos/encryption/*BridgeInternal.java</sourceFileExclude>
-              <sourceFileExclude>com/azure/cosmos/encryption/models/*BridgeInternal.java</sourceFileExclude>
-              <sourceFileExclude>module-info.java</sourceFileExclude>
-            </sourceFileExcludes>
-            <sourcepath>
-              ${javadoc.sourcepath}
-            </sourcepath>
-            <links combine.children="append">
-              <!-- JDK APIs -->
-              <link>https://docs.oracle.com/javase/8/docs/api/</link>
-
-              <!-- Reactor APIs -->
-              <link>https://projectreactor.io/docs/core/release/api/</link> <!-- TODO (alzimmer): We need to version this. Right now it is always going to point to latest which may be wrong -->
-              <link>https://projectreactor.io/docs/netty/release/api/</link>
-
-              <!-- Jackson APIs -->
-              <link>https://fasterxml.github.io/jackson-annotations/javadoc/2.12/</link>
-              <link>https://fasterxml.github.io/jackson-core/javadoc/2.12/</link>
-              <link>https://fasterxml.github.io/jackson-databind/javadoc/2.12/</link>
-
-              <!-- Netty APIs -->
-              <link>https://netty.io/4.1/api/</link>
-
-              <!-- Avro APIs -->
-              <link>https://avro.apache.org/docs/current/api/java/</link>
-            </links>
-            <detectJavaApiLink>false</detectJavaApiLink>
-            <offline>true</offline>
-            <offlineLinks>
-              <!-- JDK APIs -->
-              <offlineLink>
-                <url>https://docs.oracle.com/javase/8/docs/api/</url>
-                <location>${project.basedir}/${relative.path.to.eng.folder}/eng/javadoc-package-lists/java8/</location>
-              </offlineLink>
-
-              <!-- Reactor APIs -->
-              <offlineLink>
-                <url>https://projectreactor.io/docs/core/release/api/</url>
-                <location>${project.basedir}/${relative.path.to.eng.folder}/eng/javadoc-package-lists/reactor-core/</location>
-              </offlineLink>
-              <offlineLink>
-                <url>https://projectreactor.io/docs/netty/release/api/</url>
-                <location>${project.basedir}/${relative.path.to.eng.folder}/eng/javadoc-package-lists/reactor-netty/</location>
-              </offlineLink>
-
-              <!-- Jackson APIs -->
-              <offlineLink>
-                <url>https://fasterxml.github.io/jackson-annotations/javadoc/2.12/</url>
-                <location>${project.basedir}/${relative.path.to.eng.folder}/eng/javadoc-package-lists/jackson-annotations/</location>
-              </offlineLink>
-              <offlineLink>
-                <url>https://fasterxml.github.io/jackson-core/javadoc/2.12/</url>
-                <location>${project.basedir}/${relative.path.to.eng.folder}/eng/javadoc-package-lists/jackson-core/</location>
-              </offlineLink>
-              <offlineLink>
-                <url>https://fasterxml.github.io/jackson-databind/javadoc/2.12/</url>
-                <location>${project.basedir}/${relative.path.to.eng.folder}/eng/javadoc-package-lists/jackson-databind/</location>
-              </offlineLink>
-
-              <!-- Netty APIs -->
-              <offlineLink>
-                <url>https://netty.io/4.1/api/</url>
-                <location>${project.basedir}/${relative.path.to.eng.folder}/eng/javadoc-package-lists/netty/</location>
-              </offlineLink>
-
-              <!-- Avro APIs -->
-              <offlineLink>
-                <url>https://avro.apache.org/docs/current/api/java/</url>
-                <location>${project.basedir}/${relative.path.to.eng.folder}/eng/javadoc-package-lists/apache-avro/</location>
-              </offlineLink>
-            </offlineLinks>
-            <failOnError>true</failOnError>
-            <failOnWarnings>true</failOnWarnings>
-            <doclint>${doclint}</doclint>
-            <quiet>true</quiet>
-            <jarOutputDirectory>${packageOutputDirectory}</jarOutputDirectory>
-          </configuration>
-        </plugin>
-
         <!-- This plugin runs tests -->
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -982,19 +857,6 @@
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.6.0</version> <!-- {x-version-update;org.apache.maven.plugins:maven-javadoc-plugin;external_dependency} -->
-        <reportSets>
-          <reportSet>
-            <id>non-aggregate</id>
-            <reports>
-              <report>javadoc</report>
-            </reports>
-          </reportSet>
-        </reportSets>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-project-info-reports-plugin</artifactId>
         <version>3.0.0</version> <!-- {x-version-update;org.apache.maven.plugins:maven-project-info-reports-plugin;external_dependency} -->
         <reportSets>
@@ -1063,34 +925,8 @@
               <testTarget>1.8</testTarget>
             </configuration>
           </plugin>
-          <!-- Avoid errors from module-info -->
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <version>3.6.0</version> <!-- {x-version-update;org.apache.maven.plugins:maven-javadoc-plugin;external_dependency} -->
-            <configuration>
-              <sourceFileExcludes>
-                <sourceFileExclude>module-info.java</sourceFileExclude>
-              </sourceFileExcludes>
-            </configuration>
-          </plugin>
         </plugins>
       </build>
-      <reporting>
-        <plugins>
-          <!-- Avoid errors from module-info -->
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <version>3.6.0</version> <!-- {x-version-update;org.apache.maven.plugins:maven-javadoc-plugin;external_dependency} -->
-            <configuration>
-              <sourceFileExcludes>
-                <sourceFileExclude>module-info.java</sourceFileExclude>
-              </sourceFileExcludes>
-            </configuration>
-          </plugin>
-        </plugins>
-      </reporting>
     </profile>
 
     <!-- Setup for Java 9+ -->
@@ -1271,15 +1107,6 @@
                 </configuration>
               </execution>
             </executions>
-          </plugin>
-          <!-- Add the overview argument to the javadoc args -->
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <version>3.6.0</version> <!-- {x-version-update;org.apache.maven.plugins:maven-javadoc-plugin;external_dependency} -->
-            <configuration combine.children="append">
-              <overview>${project.build.directory}/readme_overview.html</overview>
-            </configuration>
           </plugin>
         </plugins>
       </build>
