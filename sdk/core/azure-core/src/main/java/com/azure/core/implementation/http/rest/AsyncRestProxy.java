@@ -35,9 +35,6 @@ import java.util.function.Function;
 
 import static com.azure.core.implementation.ReflectionSerializable.serializeJsonSerializableToBytes;
 
-/**
- * An asynchronous REST proxy implementation.
- */
 public class AsyncRestProxy extends RestProxyBase {
 
     private static final String TEXT_EVENT_STREAM = "text/event-stream";
@@ -264,8 +261,7 @@ public class AsyncRestProxy extends RestProxyBase {
         return result;
     }
 
-    private Mono<HttpResponseDecoder.HttpDecodedResponse> endSpanWhenDone(
-        Mono<HttpResponseDecoder.HttpDecodedResponse> getResponse, Context span) {
+    private Mono<HttpResponseDecoder.HttpDecodedResponse> endSpanWhenDone(Mono<HttpResponseDecoder.HttpDecodedResponse> getResponse, Context span) {
         if (isTracingEnabled(span)) {
             return getResponse
                 .doOnEach(signal -> {
@@ -283,7 +279,6 @@ public class AsyncRestProxy extends RestProxyBase {
         return getResponse;
     }
 
-    @Override
     @SuppressWarnings("unchecked")
     public void updateRequest(RequestDataConfiguration requestDataConfiguration, SerializerAdapter serializerAdapter)
         throws IOException {
@@ -321,7 +316,7 @@ public class AsyncRestProxy extends RestProxyBase {
                 request.setBody(bodyContentString);
             }
         } else if (bodyContentObject instanceof ByteBuffer) {
-            request.setBody(BinaryData.fromByteBuffer((ByteBuffer) bodyContentObject));
+            request.setBody(Flux.just((ByteBuffer) bodyContentObject));
         } else {
             request.setBody(serializerAdapter.serializeToBytes(bodyContentObject,
                 SerializerEncoding.fromHeaders(request.getHeaders())));

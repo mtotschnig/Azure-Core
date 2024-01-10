@@ -163,7 +163,7 @@ public abstract class TestBase implements BeforeEachCallback {
             localTestMode = TestMode.LIVE;
         }
 
-        String testName = getTestName(testInfo.getTestMethod(), testInfo.getDisplayName(), testInfo.getTestClass());
+        String testName = getTestName(testInfo.getTestMethod(), testInfo.getDisplayName());
         Path testClassPath = Paths.get(toURI(testInfo.getTestClass().get().getResource(testInfo.getTestClass().get().getSimpleName() + ".class")));
         this.testContextManager =
             new TestContextManager(testInfo.getTestMethod().get(),
@@ -214,8 +214,9 @@ public abstract class TestBase implements BeforeEachCallback {
      */
     @AfterEach
     public void teardownTest(TestInfo testInfo) {
-        String testName = getTestName(testInfo.getTestMethod(), testInfo.getDisplayName(), testInfo.getTestClass());
         if (shouldLogExecutionStatus()) {
+            String testName = getTestName(testInfo.getTestMethod(), testInfo.getDisplayName());
+
             if (testStartTimeMillis > 0) {
                 long duration = System.currentTimeMillis() - testStartTimeMillis;
                 System.out.println("Finished test " + testName + " in " + duration + " ms.");
@@ -225,7 +226,7 @@ public abstract class TestBase implements BeforeEachCallback {
         }
 
         if (testContextManager != null) {
-            ThreadDumper.removeRunningTest(testName);
+            ThreadDumper.removeRunningTest(testContextManager.getTestPlaybackRecordingName());
 
             if (testContextManager.didTestRun()) {
                 afterTest();
@@ -435,14 +436,13 @@ public abstract class TestBase implements BeforeEachCallback {
             : httpClient);
     }
 
-    static String getTestName(Optional<Method> testMethod, String displayName, Optional<Class<?>> testClass) {
+    static String getTestName(Optional<Method> testMethod, String displayName) {
         String testName = "";
         String fullyQualifiedTestName = "";
         if (testMethod.isPresent()) {
             Method method = testMethod.get();
-            String className = testClass.map(Class::getName).orElse(method.getDeclaringClass().getName());
             testName = method.getName();
-            fullyQualifiedTestName = className + "." + testName;
+            fullyQualifiedTestName = method.getDeclaringClass().getName() + "." + testName;
         }
 
         return Objects.equals(displayName, testName)

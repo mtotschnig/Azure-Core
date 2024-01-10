@@ -11,8 +11,10 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadInfo;
 import java.lang.management.ThreadMXBean;
+import java.lang.reflect.Method;
 import java.time.Duration;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -128,7 +130,7 @@ public class ThreadDumper implements BeforeAllCallback, BeforeEachCallback, Afte
         if (clazz != null && TestBase.class.isAssignableFrom(clazz)) {
             return;
         }
-
+        
         RUNNING_TEST_TIMES.put(getFullTestName(context), System.currentTimeMillis());
     }
 
@@ -153,6 +155,18 @@ public class ThreadDumper implements BeforeAllCallback, BeforeEachCallback, Afte
     }
 
     private static String getFullTestName(ExtensionContext context) {
-        return TestBase.getTestName(context.getTestMethod(), context.getDisplayName(), context.getTestClass());
+        String displayName = context.getDisplayName();
+
+        String testName = "";
+        String fullyQualifiedTestName = "";
+        if (context.getTestMethod().isPresent()) {
+            Method method = context.getTestMethod().get();
+            testName = method.getName();
+            fullyQualifiedTestName = method.getDeclaringClass().getName() + "." + testName;
+        }
+
+        return !Objects.equals(displayName, testName)
+            ? fullyQualifiedTestName + "(" + displayName + ")"
+            : fullyQualifiedTestName;
     }
 }

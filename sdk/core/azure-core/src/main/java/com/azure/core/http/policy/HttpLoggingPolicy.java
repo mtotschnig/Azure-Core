@@ -41,6 +41,7 @@ import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
+import java.util.Collections;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -89,15 +90,9 @@ public class HttpLoggingPolicy implements HttpPipelinePolicy {
      */
     public HttpLoggingPolicy(HttpLogOptions httpLogOptions) {
         if (httpLogOptions == null) {
-            this.httpLogDetailLevel = HttpLogDetailLevel.ENVIRONMENT_HTTP_LOG_DETAIL_LEVEL;
-            this.allowedHeaderNames = HttpLogOptions.DEFAULT_HEADERS_ALLOWLIST
-                .stream()
-                .map(headerName -> headerName.toLowerCase(Locale.ROOT))
-                .collect(Collectors.toSet());
-            this.allowedQueryParameterNames = HttpLogOptions.DEFAULT_QUERY_PARAMS_ALLOWLIST
-                .stream()
-                .map(queryParamName -> queryParamName.toLowerCase(Locale.ROOT))
-                .collect(Collectors.toSet());
+            this.httpLogDetailLevel = HttpLogDetailLevel.NONE;
+            this.allowedHeaderNames = Collections.emptySet();
+            this.allowedQueryParameterNames = Collections.emptySet();
             this.prettyPrintBody = false;
 
             this.requestLogger = new DefaultHttpRequestLogger();
@@ -159,8 +154,8 @@ public class HttpLoggingPolicy implements HttpPipelinePolicy {
             }
             return response;
         } catch (RuntimeException e) {
-            logger.log(LogLevel.WARNING, () -> "<-- HTTP FAILED: ", e);
-            throw e;
+            logger.warning("<-- HTTP FAILED: ", e);
+            throw logger.logExceptionAsWarning(e);
         }
     }
 
@@ -415,7 +410,7 @@ public class HttpLoggingPolicy implements HttpPipelinePolicy {
                 final Object deserialized = PRETTY_PRINTER.readTree(body);
                 result = PRETTY_PRINTER.writeValueAsString(deserialized);
             } catch (Exception e) {
-                logger.log(LogLevel.WARNING, () -> "Failed to pretty print JSON", e);
+                logger.warning("Failed to pretty print JSON", e);
             }
         }
         return result;
@@ -438,9 +433,8 @@ public class HttpLoggingPolicy implements HttpPipelinePolicy {
 
         try {
             contentLength = Long.parseLong(contentLengthString);
-        } catch (NumberFormatException e) {
-            logger.log(LogLevel.INFORMATIONAL,
-                () -> "Could not parse the HTTP header content-length: '" + contentLengthString + "'.", e);
+        } catch (NumberFormatException | NullPointerException e) {
+            logger.warning("Could not parse the HTTP header content-length: '{}'.", contentLengthString, e);
         }
 
         return contentLength;
@@ -477,8 +471,7 @@ public class HttpLoggingPolicy implements HttpPipelinePolicy {
         try {
             return Integer.valueOf(rawRetryCount.toString());
         } catch (NumberFormatException ex) {
-            LOGGER.log(LogLevel.INFORMATIONAL,
-                () -> "Could not parse the request retry count: '" + rawRetryCount + "'.");
+            LOGGER.warning("Could not parse the request retry count: '{}'.", rawRetryCount);
             return null;
         }
     }

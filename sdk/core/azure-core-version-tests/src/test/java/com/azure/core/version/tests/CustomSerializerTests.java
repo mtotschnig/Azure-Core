@@ -9,6 +9,7 @@ import com.azure.core.models.GeoLineString;
 import com.azure.core.models.GeoLineStringCollection;
 import com.azure.core.models.GeoLinearRing;
 import com.azure.core.models.GeoObject;
+import com.azure.core.models.GeoObjectType;
 import com.azure.core.models.GeoPoint;
 import com.azure.core.models.GeoPointCollection;
 import com.azure.core.models.GeoPolygon;
@@ -18,6 +19,7 @@ import com.azure.core.util.serializer.JacksonAdapter;
 import com.azure.core.util.serializer.SerializerAdapter;
 import com.azure.core.util.serializer.SerializerEncoding;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -140,7 +142,7 @@ public class CustomSerializerTests {
     @ParameterizedTest
     @MethodSource("invalidGeoJsonDeserializationSupplier")
     public void invalidGeoJsonDeserializationThrowsIllegalStateException(String invalidGeoJson) {
-        Assertions.assertThrows(IOException.class,
+        Assertions.assertThrows(IllegalStateException.class,
             () -> ADAPTER.deserialize(invalidGeoJson, GeoObject.class, SerializerEncoding.JSON));
     }
 
@@ -254,6 +256,23 @@ public class CustomSerializerTests {
         BiFunction<GeoBoundingBox, Map<String, Object>, ? extends GeoObject> geoSupplier) {
         GeoObject geoObject = geoSupplier.apply(boundingBox, properties);
         return new Object[]{GeoSerializationTestHelpers.geoToJson(geoObject), geoObject.getClass(), geoObject};
+    }
+
+    @Test
+    public void unknownGeoTypeSerializationThrows() {
+        Assertions.assertThrows(IOException.class,
+            () -> ADAPTER.serialize(new CustomGeoObject(null, null), SerializerEncoding.JSON));
+    }
+
+    private static final class CustomGeoObject extends GeoObject {
+        protected CustomGeoObject(GeoBoundingBox boundingBox, Map<String, Object> properties) {
+            super(boundingBox, properties);
+        }
+
+        @Override
+        public GeoObjectType getType() {
+            return null;
+        }
     }
 
     @ParameterizedTest

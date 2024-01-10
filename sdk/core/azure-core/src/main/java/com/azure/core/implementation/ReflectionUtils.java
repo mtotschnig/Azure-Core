@@ -16,7 +16,6 @@ public abstract class ReflectionUtils {
     private static final ReflectionUtilsApi INSTANCE;
 
     static {
-
         INSTANCE = new ReflectionUtilsClassic();
     }
 

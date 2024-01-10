@@ -217,7 +217,8 @@ public final class IOUtils {
                 }
 
                 LOGGER.atInfo().addKeyValue(LoggingKeys.TRY_COUNT_KEY, retryCount)
-                    .log(() -> "Using retry attempt " + updatedRetryCount + " of " + maxRetries + ".", exception);
+                    .log(() -> String.format("Using retry attempt %d of %d.", updatedRetryCount, maxRetries),
+                        exception);
                 return onErrorResume.apply(exception, targetChannel.getBytesWritten())
                     .flatMap(newResponse -> transferStreamResponseToAsynchronousByteChannelHelper(targetChannel,
                         newResponse, onErrorResume, maxRetries, updatedRetryCount));

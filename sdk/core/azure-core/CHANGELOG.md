@@ -1,22 +1,5 @@
 # Release History
 
-## 1.46.0-beta.1 (Unreleased)
-
-### Features Added
-
-- Added `SyncPoller.getFinalResult(Duration)` to get the final result of a long-running operation with a timeout
-  period. Allows for a single call rather than calling both `SyncPoller.waitForCompletion(Duration)` and
-  `SyncPoller.getFinalResult()`.
-
-### Breaking Changes
-
-- `SyncPoller.waitForCompletion(Duration)` now throws an exception if the polling operation doesn't complete or reach 
-  the status within the give duration.
-
-### Bugs Fixed
-
-### Other Changes
-
 ## 1.45.0 (2023-11-03)
 
 ### Features Added

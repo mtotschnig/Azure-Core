@@ -15,7 +15,6 @@ import com.azure.core.models.GeoPolygon;
 import com.azure.core.models.GeoPolygonCollection;
 import com.azure.core.models.GeoPosition;
 import com.azure.core.util.serializer.JacksonAdapter;
-import com.azure.core.util.serializer.SerializerAdapter;
 import com.azure.core.util.serializer.SerializerEncoding;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -37,26 +36,26 @@ import java.util.stream.Stream;
  * Tests {@link GeoJsonDeserializer}.
  */
 public class GeoJsonDeserializerTests {
-    private static final SerializerAdapter ADAPTER = JacksonAdapter.createDefaultSerializerAdapter();
+    private static final JacksonAdapter ADAPTER = new JacksonAdapter();
 
     @Test
     public void jsonWithoutTypeThrows() {
         String missingType = "{\"coordinates\":[0,0]}";
-        Assertions.assertThrows(IOException.class,
+        Assertions.assertThrows(IllegalStateException.class,
             () -> ADAPTER.deserialize(missingType, GeoObject.class, SerializerEncoding.JSON));
     }
 
     @Test
     public void jsonWithoutCoordinatesThrows() {
         String missingCoordinates = "{\"type\":\"Point\"}";
-        Assertions.assertThrows(IOException.class,
+        Assertions.assertThrows(IllegalStateException.class,
             () -> ADAPTER.deserialize(missingCoordinates, GeoPoint.class, SerializerEncoding.JSON));
     }
 
     @Test
     public void unknownGeoTypeThrows() {
         String unknownType = "{\"type\":\"Custom\",\"coordinates\":[0,0]}";
-        Assertions.assertThrows(IOException.class,
+        Assertions.assertThrows(IllegalStateException.class,
             () -> ADAPTER.deserialize(unknownType, GeoObject.class, SerializerEncoding.JSON));
     }
 
@@ -66,7 +65,7 @@ public class GeoJsonDeserializerTests {
         "{\"type\":\"Point\",\"coordinates\":[4,4,4,4]}"
     })
     public void invalidCoordinateCountThrows(String invalidCoordinateCount) {
-        Assertions.assertThrows(IOException.class,
+        Assertions.assertThrows(IllegalStateException.class,
             () -> ADAPTER.deserialize(invalidCoordinateCount, GeoPoint.class, SerializerEncoding.JSON));
     }
 
@@ -76,14 +75,14 @@ public class GeoJsonDeserializerTests {
         "{\"type\":\"Point\",\"coordinates\":[0,0],\"bbox\":[8,8,8,8,8,8,8,8]}"
     })
     public void invalidBoundBoxThrows(String invalidBoundBox) {
-        Assertions.assertThrows(IOException.class,
+        Assertions.assertThrows(IllegalStateException.class,
             () -> ADAPTER.deserialize(invalidBoundBox, GeoPoint.class, SerializerEncoding.JSON));
     }
 
     @Test
     public void collectionWithoutGeometriesThrows() {
         String invalidCollection = "{\"type\":\"GeometryCollection\"}";
-        Assertions.assertThrows(IOException.class,
+        Assertions.assertThrows(IllegalStateException.class,
             () -> ADAPTER.deserialize(invalidCollection, GeoCollection.class, SerializerEncoding.JSON));
     }
 

@@ -20,9 +20,6 @@ import reactor.core.publisher.Mono;
 
 import static com.azure.core.util.tracing.Tracer.DISABLE_TRACING_KEY;
 
-/**
- * Pipeline policy that initiates distributed tracing.
- */
 public class InstrumentationPolicy implements HttpPipelinePolicy {
     private static final String HTTP_USER_AGENT = "http.user_agent";
     private static final String HTTP_METHOD = "http.method";
@@ -46,18 +43,9 @@ public class InstrumentationPolicy implements HttpPipelinePolicy {
             foundLegacyOTelPolicy = false;
         }
     }
-
-    /**
-     * Creates an InstrumentationPolicy.
-     */
     public InstrumentationPolicy() {
     }
 
-    /**
-     * Initializes the policy with the {@link Tracer} instance.
-     *
-     * @param tracer the tracer instance.
-     */
     public void initialize(Tracer tracer) {
         this.tracer = tracer;
     }
@@ -94,7 +82,7 @@ public class InstrumentationPolicy implements HttpPipelinePolicy {
             return response;
         } catch (RuntimeException ex) {
             tracer.end(null, ex, span);
-            throw LOGGER.logExceptionAsWarning(ex);
+            throw ex;
         } catch (Exception ex) {
             tracer.end(null, ex, span);
             throw LOGGER.logExceptionAsWarning(new RuntimeException(ex));

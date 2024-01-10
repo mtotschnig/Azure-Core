@@ -12,7 +12,6 @@ omitted_paths:
   - sdk/spring-experimental/*
   - "sdk/spring-experimental/*/*"
   - sdk/loganalytics/microsoft-azure-loganalytics/samples/*
-  - sdk/vision/azure-ai-vision-imageanalysis/src/test/*
   - "*/resource-manager/*"
   - "sdk/*/mgmt-*/*"
   - "sdk/*/swagger/*"
